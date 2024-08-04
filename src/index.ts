@@ -59,7 +59,7 @@ let str8: string = "ab"
 function isAnagram(str1: string, str2: string): boolean {
 
     // edge case 
-    if (str1.length !== str2.length) return false; 
+    if (str1.length !== str2.length) return false;
 
     const hashTable: { [key: string]: number } = {};
     const hashTable2: { [key: string]: number } = {};
@@ -131,14 +131,73 @@ function twoSum(arr: number[], target: number): number[] {
 }
 
 
-const arr: number[] = [3,2,4]
+const arr: number[] = [3, 2, 4]
 const target: number = 6
 
 // [0,1]
-const arr2: number[] = [3,3]
+const arr2: number[] = [3, 3]
 const target2: number = 6
 
 
 
 // console.log(twoSum(arr, target), `these 2 position add up to the ${target}`)
-console.log(twoSum(arr2, target2), `these 2 position add up to the ${target2}`)
+// console.log(twoSum(arr2, target2), `these 2 position add up to the ${target2}`)
+
+
+
+/**
+ * 
+ * 
+ * Given n non-negative integers representing an elevation map where the width of each 
+ * bar is 1, compute how much water it can trap after raining.
+ * Example 1:
+ * Input: height = [0,1,0,2,1,0,1,3,2,1,2,1]
+ * Output: 6
+ * Explanation: The above elevation map (black section) is represented 
+ * by array [0,1,0,2,1,0,1,3,2,1,2,1]. 
+ * In this case, 6 units of rain water (blue section) are being trapped.
+ * 
+ *           
+ * height = [0,1,0,2,1,0,1,3,2,1,2,1]
+ *           ^                     ^
+ * Output: 6
+ */
+
+const height = [0,1,0,2,1,0,1,3,2,1,2,1]
+
+
+function trap(height: number[]): number {
+    let leftPointer = 0;
+    let rightPointer = height.length - 1;
+    // accumulate left water
+    let leftWaterSum = 0
+    let rightWaterSum = 0;
+    let leftMax = 0
+    let rightMax = 0;
+
+    while (leftPointer < rightPointer) {
+
+        let currentLeftColumn = height[leftPointer]
+        let currentRightColumn = height[rightPointer]
+
+        if (currentLeftColumn < currentRightColumn) {
+            if (currentLeftColumn > leftMax) {
+                leftMax = currentLeftColumn;
+            } else {
+                leftWaterSum += leftMax - currentLeftColumn;
+            }
+            leftPointer++;
+        } else {
+            if (currentRightColumn > rightMax) {
+                rightMax = currentRightColumn;
+            } else {
+                rightWaterSum += rightMax - currentRightColumn;
+            }
+            rightPointer--;
+        }
+    }
+
+    return leftWaterSum + rightWaterSum
+};
+
+console.log(trap(height))
