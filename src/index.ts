@@ -147,6 +147,135 @@ const target2: number = 6
 
 /**
  * 
+ * Top K Elements in List
+ * Given an integer array nums and an integer k, return the k most frequent elements within the array.
+ * The test cases are generated such that the answer is always unique.
+ * 
+ * You may return the output in any order.
+ * 
+ * Input: nums = 1,[1,2,2,3,3,3], k = 2
+ * 
+ * Output: [2,3]
+ * 
+ * Example:
+ * If nums = [1,1,1,2,2,3] and k = 2, the result would be [1, 2]
+ * because 1 appears 3 times and 2 appears 2 times.
+ * Is that clear
+ * 
+ * 
+ * Input: nums = [7,7], k = 1
+ * Output: [7]
+ * 
+ */
+
+const nums = [1,1,2,2,2,3]
+let k = 2; 
+
+
+function topKFrequent(numbArr: number[], k:number): number[] {
+    const hashTable: { [key: number]: number } = {};
+
+    for (let i = 0; i < numbArr.length; i++) {
+        
+        if(numbArr[i] in hashTable){
+            // seeing one more repetition of the number 
+            hashTable[numbArr[i]] = hashTable[numbArr[i]] + 1; 
+        } else {
+            hashTable[numbArr[i]] = 1; 
+        }
+    }
+
+    const sortedEntries: [string, number][] = Object.entries(hashTable).sort((a, b) => b[1] - a[1]);
+   
+    const answerArr: number[] = []; 
+
+    for (let i = 0; i < k; i++) {
+        answerArr.push(Number(sortedEntries[i][0])); 
+    }
+
+ return answerArr   
+}
+
+// console.log(topKFrequent(nums, k))
+
+
+// Runtime
+// 64
+// ms
+// Beats
+// 86.93%
+// Analyze Complexity
+// Memory
+// 53.06
+// MB
+// Beats
+// 90.46%
+
+
+const arrNums: number[] =  [100,4,200,1,3,2] ///[2,20,4,10,3,4,5,21,22]
+
+function longestConsecutive(arr:number[]) {
+
+    const numSet = new Set(arr);
+    let longestConsecutiveSequence = 1;
+    let determineTheStart; 
+
+    for (let i = 0; i < arr.length; i++) {
+        if (!numSet.has(arr[i]-1)){
+            let currentConsecutiveSeq = 1;
+            determineTheStart = arr[i]
+            let counter = 1; // 1     //
+            //  okay track how long the sequence goes 
+            while(numSet.has(determineTheStart + counter)){             
+                counter++; // check the set for the number if it's in the sequence  
+                currentConsecutiveSeq++;           
+            }
+            if(currentConsecutiveSeq > longestConsecutiveSequence) {
+                longestConsecutiveSequence = currentConsecutiveSeq
+            }
+        }
+        continue;  
+    }
+    return longestConsecutiveSequence; 
+}
+
+
+console.log(longestConsecutive(arrNums))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * 
  * 
  * Given n non-negative integers representing an elevation map where the width of each 
  * bar is 1, compute how much water it can trap after raining.
@@ -200,4 +329,4 @@ function trap(height: number[]): number {
     return leftWaterSum + rightWaterSum
 };
 
-console.log(trap(height))
+// console.log(trap(height))
